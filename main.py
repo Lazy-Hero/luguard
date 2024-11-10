@@ -9,6 +9,7 @@ import ctypes
 
 colorama.init(autoreset=True)
 author_name = "https://t.me/shalopaybase"
+lsport = 0 
 
 def config_create():
     warp = cfgen.CloudflareWarp()
