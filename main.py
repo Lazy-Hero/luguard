@@ -19,15 +19,17 @@ def dpi_crash():
     vpndpi.dpi_crasher(None, lsport if lsport is not None else 0)
 
 def auto_spoof():
-    print(f"Settings get...")
-    parsing_conf()
-    if auto_send:
-        vpndpi.dpi_crasher(lsport, None)
-    if auto_connect:
-        if is_admin():
+    print("Settings get...")
+    if os.path.isfile('settings.cfg'):
+        parsing_conf()
+        if auto_send:
+            vpndpi.dpi_crasher(lsport, None)
+        if auto_connect and is_admin():
             install_wireguard_tunnel(f"{os.getcwd()}/cfwarp.conf")
-        else:
+        elif auto_connect:
             print(Fore.RED + "!!!Run the program with administrator rights to automatically connect to the tunnel!!!")
+    else: 
+        print(f"{Fore.RED} !!! To use it, generate the settings.cfg file by selecting item number {Fore.YELLOW}[1]")
 
 def is_admin():
     try:
