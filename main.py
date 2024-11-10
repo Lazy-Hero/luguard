@@ -16,7 +16,7 @@ def config_create():
 
 def dpi_crash():
     parsing_conf()
-    vpndpi.dpi_crasher(None, lsport)
+    vpndpi.dpi_crasher(None, lsport if lsport is not None else 0)
 
 def auto_spoof():
     print(f"Settings get...")
@@ -54,22 +54,25 @@ def uninstall_wireguard_tunnel(config_name):
 
 
 def parsing_conf():
-    with open('settings.cfg', 'r') as file:
-        for line in file:
-            line = line.strip()
-            if line and not line.startswith('#'):
-                key, value = line.split('=', 1)
-                key = key.strip()
-                value = value.strip()
-                if value.lower() == 'true':
-                    globals()[key] = True
-                elif value.lower() == 'false':
-                    globals()[key] = False
-                else:
-                    try:
-                        globals()[key] = int(value)
-                    except ValueError:
-                        globals()[key] = value
+    try:
+        with open('settings.cfg', 'r') as file:
+            for line in file:
+                line = line.strip()
+                if line and not line.startswith('#'):
+                    key, value = line.split('=', 1)
+                    key = key.strip()
+                    value = value.strip()
+                    if value.lower() == 'true':
+                        globals()[key] = True
+                    elif value.lower() == 'false':
+                        globals()[key] = False
+                    else:
+                        try:
+                            globals()[key] = int(value)
+                        except ValueError:
+                            globals()[key] = value
+    except Exception as e:
+        pass
 
 def display_menu():
     print(Fore.YELLOW + f"\nLuGuard Developer: {Style.BRIGHT + Fore.WHITE}{author_name}\n")
